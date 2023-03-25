@@ -37,6 +37,30 @@ namespace Logica.Models
             bool R = false;
             // aca va el codigo funcional que  invoca a procedimiento almacenado
 
+            //paso 1.6.1 y 1.6.2 
+            Services.Conexion MiCnn = new Services.Conexion();
+
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Correo", this.UsuarioCorreo));
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Contrasennia", this.UsuarioContrasennia));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Nombre", this.UsuarioNombre));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Cedula", this.UsuarioCedula));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Telefono", this.UsuarioTelefono));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Direccion", this.UsuarioDireccion));
+
+            //normalmente foreign key tienen q ver con composiciones, extraer el valor objeto compuesto "MiRolTipo"
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@IdRol", this.MiRolTipo.UsuarioRolID));
+
+            //pasos 1.6.3 y 1-6-4
+            int resultado = MiCnn.EjecutarInsertUpdateDelete("SPUsuarioAgregar");
+
+            //paso 1.6.5
+            if (resultado > 0)
+            {
+                R = true;
+            }
+
             return R;
         }
 
@@ -99,14 +123,46 @@ namespace Logica.Models
         {
             bool R = false;
 
+            //paso 1.3.1 y 1.3.2 
+            Services.Conexion MiCnn = new Services.Conexion();
+
+            //se deben agregar los params si el SP los requiere
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Cedula", this.UsuarioCedula));
+
+            DataTable Consulta = new DataTable();
+            //paso 1.3.3 y 1.3.4
+             Consulta = MiCnn.EjecutarSELECT("SpUsuarioConsultarPorCedula");
+
+
+            //paso 1.3.5
+            if (Consulta != null && Consulta.Rows.Count > 0)
+            {
+                R = true;
+            }
 
             return R;
         }
 
-        public bool ConsultarPorCedulaEmail()
+        public bool ConsultarPorEmail()
         {
             bool R = false;
 
+            //paso 1.4.1 y 1.4.2 
+            Services.Conexion MiCnn = new Services.Conexion();
+
+            //se deben agregar los params si el SP los requiere
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Correo", this.UsuarioCorreo));
+
+            DataTable Consulta = new DataTable();
+            //paso 1.4.3 y 1.4.4
+            Consulta = MiCnn.EjecutarSELECT("SpUsuarioConsultarPorEmail");
+
+
+            //paso 1.4.5
+            if (Consulta != null && Consulta.Rows.Count > 0)
+            {
+                R = true;
+            }
 
             return R;
         }
