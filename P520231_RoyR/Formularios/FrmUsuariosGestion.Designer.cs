@@ -364,7 +364,7 @@ namespace P520231_RoyR.Formularios
             this.BtnModificar.TabIndex = 6;
             this.BtnModificar.Text = "MODIFICAR";
             this.BtnModificar.UseVisualStyleBackColor = false;
-            this.BtnModificar.Click += new System.EventHandler(this.button1_Click);
+            this.BtnModificar.Click += new System.EventHandler(this.BtnModificar_Click);
             // 
             // BtnEliminar
             // 
@@ -376,6 +376,7 @@ namespace P520231_RoyR.Formularios
             this.BtnEliminar.TabIndex = 7;
             this.BtnEliminar.Text = "ELIMINAR";
             this.BtnEliminar.UseVisualStyleBackColor = false;
+            this.BtnEliminar.Click += new System.EventHandler(this.BtnEliminar_Click);
             // 
             // BtnLimpiar
             // 

@@ -67,13 +67,50 @@ namespace Logica.Models
         public bool Editar()
         {
             bool R = false;
-           
+
+            //paso  
+            Services.Conexion MiCnn = new Services.Conexion();
+
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Correo", this.UsuarioCorreo));
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Contrasennia", this.UsuarioContrasennia));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Nombre", this.UsuarioNombre));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Cedula", this.UsuarioCedula));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Telefono", this.UsuarioTelefono));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Direccion", this.UsuarioDireccion));
+
+            //normalmente foreign key tienen q ver con composiciones, extraer el valor objeto compuesto "MiRolTipo"
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@IdRol", this.MiRolTipo.UsuarioRolID));
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@ID", this.UsuarioID));
+            //pasos 
+            int resultado = MiCnn.EjecutarInsertUpdateDelete("SPUsuarioModificar");
+
+            //paso 
+            if (resultado > 0)
+            {
+                R = true;
+            }
+
+
             return R;
         }
         public bool Eliminar()
         {
             bool R = false;
-            
+
+            Services.Conexion MiCnn = new Services.Conexion();
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@ID", this.UsuarioID));
+
+            int respuesta = MiCnn.EjecutarInsertUpdateDelete("SPUsuarioDesactivar");
+
+            if (respuesta > 0)
+            {
+                R = true;
+            }
+
 
             return R;
         }
@@ -82,6 +119,18 @@ namespace Logica.Models
         {
             bool R = false;
 
+            Services.Conexion MiCnn = new Services.Conexion();
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@ID", this.UsuarioID));
+
+            DataTable dt = new DataTable();
+            dt = MiCnn.EjecutarSELECT("SPUsuarioConsultarPorID");
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                R = true;
+
+            }
 
             return R;
         }

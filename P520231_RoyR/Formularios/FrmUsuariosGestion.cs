@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace P520231_RoyR.Formularios
 {
-    
+
 
     public partial class FrmUsuariosGestion : Form
     {
@@ -42,12 +42,14 @@ namespace P520231_RoyR.Formularios
             CargarListaRoles();
 
             CargarListaDeUsuarios();
+
+            ActivarAgregar();
         }
 
         private void CargarListaDeUsuarios()
         {
             ListaUsuarios = new DataTable();
-            if(CboxVerActivos.Checked)
+            if (CboxVerActivos.Checked)
             {
                 ListaUsuarios = MiUsuarioLocal.ListarActivos();
 
@@ -58,7 +60,7 @@ namespace P520231_RoyR.Formularios
             }
 
             DgLista.DataSource = ListaUsuarios;
-                 
+
 
         }
 
@@ -71,13 +73,13 @@ namespace P520231_RoyR.Formularios
             DataTable dt = new DataTable();
             dt = MiRol.Listar();
 
-            if (dt!= null && dt.Rows.Count > 0)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 CbRolesUsuario.ValueMember = "ID";
                 CbRolesUsuario.DisplayMember = "Descrip";
                 CbRolesUsuario.DataSource = dt;
                 CbRolesUsuario.SelectedIndex = -1;
-            } 
+            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -110,18 +112,46 @@ namespace P520231_RoyR.Formularios
 
         }
 
-        private bool ValidarDatosDigitados()      
-           {
-           bool R = false;
+        private bool ValidarDatosDigitados(bool OmitirPassword = false)
+        {
+            bool R = false;
 
-            if (!string.IsNullOrEmpty(TxtUsuarioNombre.Text.Trim())  &&
-                !string.IsNullOrEmpty(TxtUsuarioCedula.Text.Trim())  &&
+            if (!string.IsNullOrEmpty(TxtUsuarioNombre.Text.Trim()) &&
+                !string.IsNullOrEmpty(TxtUsuarioCedula.Text.Trim()) &&
                 !string.IsNullOrEmpty(TxtUsuarioTelefono.Text.Trim()) &&
                 !string.IsNullOrEmpty(TxtUsuarioCorreo.Text.Trim()) &&
-                !string.IsNullOrEmpty(TxtUsuarioContrasennia.Text.Trim()) &&
+             
                 CbRolesUsuario.SelectedIndex > -1)
+
+            //cortar !string.IsNullOrEmpty(TxtUsuarioContrasennia.Text.Trim()) &&
             {
-                R = true;
+                if (OmitirPassword)
+                {
+                    //-PARA EDITAR- si el password  se omite ya paso la evaluacion a este punto,retorna true
+                    R = true;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(TxtUsuarioContrasennia.Text.Trim()))
+                    {
+                        R = true;
+                    }
+                    else
+                    {
+                        
+                          MessageBox.Show("Debe digitar un contraseña para el usuario", "error de validacion", MessageBoxButtons.OK);
+                          TxtUsuarioContrasennia.Focus();
+                          return false;
+                        
+                    }
+
+                }
+
+               
+
+
+
+
             }
             else
             {
@@ -154,12 +184,7 @@ namespace P520231_RoyR.Formularios
                     return false;
                 }
 
-                if (string.IsNullOrEmpty(TxtUsuarioContrasennia.Text.Trim()))
-                {
-                    MessageBox.Show("Debe digitar un contraseña para el usuario", "error de validacion", MessageBoxButtons.OK);
-                    TxtUsuarioContrasennia.Focus();
-                    return false;
-                }
+                
                 if (CbRolesUsuario.SelectedIndex == -1)
                 {
                     MessageBox.Show("Debe seleccionar un rol para el usuario", "error de validacion", MessageBoxButtons.OK);
@@ -172,9 +197,9 @@ namespace P520231_RoyR.Formularios
 
             }
 
-        return R;
+            return R;
 
-           }
+        }
 
         private void BtnAgregar_Click(object sender, EventArgs e)
         {
@@ -268,6 +293,9 @@ namespace P520231_RoyR.Formularios
             //en el usuario local y 
             if (DgLista.SelectedRows.Count == 1)
             {
+
+                LimpiarFormulario();
+
                 DataGridViewRow MiFila = DgLista.SelectedRows[0];
 
                 //vallor del ip del usuario para realizar consulta y taer datos para llenar el objeto de usuario local
@@ -298,6 +326,7 @@ namespace P520231_RoyR.Formularios
                     CbRolesUsuario.SelectedValue = MiUsuarioLocal.MiRolTipo.UsuarioRolID;
 
                     //TODO desactivar botones q no son nesecesarios
+                    ActivarEditarEliminar();
                 }
 
             }
@@ -307,7 +336,27 @@ namespace P520231_RoyR.Formularios
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarFormulario();
+
+            DgLista.ClearSelection();
+
+            ActivarAgregar();
         }
+
+        private void ActivarAgregar()
+        {
+            BtnAgregar.Enabled = true;
+            BtnModificar.Enabled = false;
+            BtnEliminar.Enabled = false;
+        }
+
+        private void ActivarEditarEliminar()
+        {
+            BtnAgregar.Enabled = false;
+            BtnModificar.Enabled = true;
+            BtnEliminar.Enabled = true;
+        }
+
+
 
         private void LimpiarFormulario()
         {
@@ -321,6 +370,83 @@ namespace P520231_RoyR.Formularios
             CbRolesUsuario.SelectedIndex = -1;
 
             TxtUsuarioDireccion.Clear();
+
+        }
+
+        private void BtnModificar_Click(object sender, EventArgs e)
+        {
+            if (ValidarDatosDigitados(true))
+            {
+                //no es necesario capturar el ID desde el cuadro de texto ya q el consultarle
+                //ya tenemos datos en el ID
+                MiUsuarioLocal.UsuarioNombre = TxtUsuarioNombre.Text.Trim();
+                MiUsuarioLocal.UsuarioCedula = TxtUsuarioCedula.Text.Trim();
+                MiUsuarioLocal.UsuarioTelefono = TxtUsuarioTelefono.Text.Trim();
+                MiUsuarioLocal.UsuarioCorreo = TxtUsuarioCorreo.Text.Trim();
+
+
+                MiUsuarioLocal.UsuarioContrasennia = TxtUsuarioContrasennia.Text.Trim();
+
+                MiUsuarioLocal.MiRolTipo.UsuarioRolID = Convert.ToInt32(CbRolesUsuario.SelectedValue);
+
+                MiUsuarioLocal.UsuarioDireccion = TxtUsuarioDireccion.Text.Trim();
+
+                //segun el diagrama de casos de uso expandido y secuencias normal
+                //
+                //
+                if (MiUsuarioLocal.ConsultarPorID())
+                {
+                    DialogResult respuesta = MessageBox.Show("¿esta seguro de modificiar el usuario?", "???", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (respuesta == DialogResult.Yes)
+                    {
+                        if (MiUsuarioLocal.Editar())
+                        {
+                            MessageBox.Show("El Usuario ha sido modificado correctamente", ":)", MessageBoxButtons.OK);
+
+                            LimpiarFormulario();
+                            CargarListaDeUsuarios();
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+        private void BtnEliminar_Click(object sender, EventArgs e)
+        {
+
+            if (MiUsuarioLocal.UsuarioID > 0 && MiUsuarioLocal.ConsultarPorID())
+            {
+
+                //tomando en cuanta q puedo esta viendo los usuarios activos o inactivos
+                //este boton podria servir tanto para activar como para desactivar los usuarios
+                //el checkbox de la parte superior de frma me sirve para identificar esta accion
+
+                if (CboxVerActivos.Checked)
+                {  //DESACTIVAR USUARIO
+                    DialogResult r = MessageBox.Show("¿esta seguro de eliminar al usuario?", "???", 
+                                                              MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (r == DialogResult.Yes)
+                    {
+                        if (MiUsuarioLocal.Eliminar())
+                        {
+                            MessageBox.Show("El usuario ha sido eliminado correctamente.", "!!!", MessageBoxButtons.OK);
+                            LimpiarFormulario();
+                            CargarListaDeUsuarios();
+                        }
+
+                    }
+                }
+                else
+                {
+                    //ACTIVAR USUARIO
+
+                }
+
+            }
 
         }
     }
