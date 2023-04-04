@@ -49,14 +49,23 @@ namespace P520231_RoyR.Formularios
         private void CargarListaDeUsuarios()
         {
             ListaUsuarios = new DataTable();
+
+            //si en el cuadro de texto de busqueda hay 3 o mas caracteres se filtra la lista
+            string FiltroBusqueda = "";
+            if (!string.IsNullOrEmpty(TxtBuscar.Text.Trim()) && TxtBuscar.Text.Count() >= 3)
+            {
+                FiltroBusqueda = TxtBuscar.Text.Trim();
+            }
+
             if (CboxVerActivos.Checked)
             {
-                ListaUsuarios = MiUsuarioLocal.ListarActivos();
+
+                ListaUsuarios = MiUsuarioLocal.ListarActivos(FiltroBusqueda);
 
             }
             else
             {
-                ListaUsuarios = MiUsuarioLocal.ListarInactivos();
+                ListaUsuarios = MiUsuarioLocal.ListarInactivos(FiltroBusqueda);
             }
 
             DgLista.DataSource = ListaUsuarios;
@@ -442,12 +451,91 @@ namespace P520231_RoyR.Formularios
                 }
                 else
                 {
-                    //ACTIVAR USUARIO
+                    //TAREA ACTIVAR USUARIO
 
                 }
 
             }
 
+        }
+        //para poner solo que se pueda poner letras o solo numeros
+        private void TxtUsuarioNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = Validaciones.CaracteresTexto(e, true);
+        }
+
+        private void TxtUsuarioCedula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = Validaciones.CaracteresNumeros(e, true);
+        }
+
+        private void TxtUsuarioTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = Validaciones.CaracteresTexto(e);
+        }
+
+        private void TxtUsuarioCorreo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = Validaciones.CaracteresTexto(e, false,true);
+        }
+
+        private void TxtUsuarioContrasennia_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = Validaciones.CaracteresTexto(e);
+        }
+
+        private void TxtUsuarioDireccion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = Validaciones.CaracteresTexto(e, true);
+        }
+
+        private void l(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtUsuarioCorreo_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TxtUsuarioCorreo.Text.Trim()))
+            {
+                if (!Validaciones.ValidarEmail(TxtUsuarioCorreo.Text.Trim()))
+                {
+
+                    MessageBox.Show("El formato del correo electronico es incorrecto", "Error d validacion", MessageBoxButtons.OK);
+
+                    TxtUsuarioCorreo.Focus();
+                }
+
+            }
+        }
+
+        private void TxtUsuarioCorreo_Enter(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TxtUsuarioCorreo.Text.Trim()))
+            {
+                TxtUsuarioCorreo.SelectAll();
+
+            }
+        }
+
+        private void CboxVerActivos_CheckedChanged(object sender, EventArgs e)
+        {
+            CargarListaDeUsuarios();
+
+            if (CboxVerActivos.Checked)
+            {
+                BtnEliminar.Text = "ELIMINAR";
+
+            }
+            else
+            {
+                BtnEliminar.Text = "ACTIVAR";
+            }
+        }
+
+        private void TxtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            CargarListaDeUsuarios();
         }
     }
 }

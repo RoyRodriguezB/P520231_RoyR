@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace P520231_RoyR
+namespace Logica
 {
-   public  class Crypto
+    public class Crypto
     {
         //Esta clase contiene los métodos necesarios para encriptar
         //no solo contraseñas sino cualquier dato importante
