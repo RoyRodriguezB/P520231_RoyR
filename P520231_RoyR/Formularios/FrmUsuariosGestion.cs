@@ -452,7 +452,22 @@ namespace P520231_RoyR.Formularios
                 else
                 {
                     //TAREA ACTIVAR USUARIO
+                    if (CboxVerActivos.Checked)
+                    {  //ACTIVAR USUARIO
+                        DialogResult r = MessageBox.Show("¿esta seguro de activar el usuario?", "???",
+                                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+                        if (r == DialogResult.Yes)
+                        {
+                            if (MiUsuarioLocal.Activar())
+                            {
+                                MessageBox.Show("El usuario ha sido activado correctamente.", "!!!", MessageBoxButtons.OK);
+                                LimpiarFormulario();
+                                CargarListaDeUsuarios();
+                            }
+
+                        }
+                    }
                 }
 
             }

@@ -124,10 +124,24 @@ namespace Logica.Models
 
         public bool Activar()
         {
-            bool R = false;
             //TAREA CREAR LA funcionalidad para activar un usuario
             //incluso este proceso, el SP y la implementacion en el UI
-            //es lo inverso
+            //es lo inverso de eliminar
+
+            bool R = false;
+
+            Services.Conexion MiCnn = new Services.Conexion();
+
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@ID", this.UsuarioID));
+
+            int respuesta = MiCnn.EjecutarInsertUpdateDelete("SPUsuarioActivar");
+
+            if (respuesta > 1)
+            {
+                R = true;
+            }
+
+
             return R;
         }
         public bool ConsultarPorID()
