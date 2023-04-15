@@ -38,6 +38,7 @@ namespace P520231_RoyR.Formularios
             this.LblRecuperarContrasennia = new System.Windows.Forms.LinkLabel();
             this.BtnVerContrasennia = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.BtnIngresoDirecto = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -146,12 +147,24 @@ namespace P520231_RoyR.Formularios
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // BtnIngresoDirecto
+            // 
+            this.BtnIngresoDirecto.Location = new System.Drawing.Point(58, 314);
+            this.BtnIngresoDirecto.Name = "BtnIngresoDirecto";
+            this.BtnIngresoDirecto.Size = new System.Drawing.Size(109, 23);
+            this.BtnIngresoDirecto.TabIndex = 9;
+            this.BtnIngresoDirecto.Text = "Ingreso Directo";
+            this.BtnIngresoDirecto.UseVisualStyleBackColor = true;
+            this.BtnIngresoDirecto.Visible = false;
+            this.BtnIngresoDirecto.Click += new System.EventHandler(this.BtnIngresoDirecto_Click);
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(374, 447);
+            this.Controls.Add(this.BtnIngresoDirecto);
             this.Controls.Add(this.BtnVerContrasennia);
             this.Controls.Add(this.LblRecuperarContrasennia);
             this.Controls.Add(this.pictureBox1);
@@ -163,9 +176,12 @@ namespace P520231_RoyR.Formularios
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmLogin";
+            this.Load += new System.EventHandler(this.FrmLogin_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmLogin_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -183,5 +199,6 @@ namespace P520231_RoyR.Formularios
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.LinkLabel LblRecuperarContrasennia;
         private System.Windows.Forms.Button BtnVerContrasennia;
+        private System.Windows.Forms.Button BtnIngresoDirecto;
     }
 }

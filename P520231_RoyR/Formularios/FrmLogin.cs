@@ -56,7 +56,60 @@ namespace P520231_RoyR.Formularios
 
         private void BtnIngresar_Click(object sender, EventArgs e)
         {
+            //validar que se haya digitado usuario y contraseña
+            if (!string.IsNullOrEmpty(TxtEmail.Text.Trim()) &&
+                !string.IsNullOrEmpty(TxtContrasennia.Text.Trim()))
+            {
+                string usuario = TxtEmail.Text.Trim();
+                string contrasennia = TxtContrasennia.Text.Trim();
+
+                //
+                Globales.MiUsuarioGlobal = Globales.MiUsuarioGlobal.ValidarUsuario(usuario, contrasennia);
+
+                if (Globales.MiUsuarioGlobal.UsuarioID > 0)
+                {
+                    //
+                    Globales.MiFormPrincipal.Show();
+                    this.Hide();
+
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o Contraseña Incorrecta...","Error de validacion",MessageBoxButtons.OK);
+
+                    TxtContrasennia.Focus();
+                    TxtContrasennia.SelectAll();
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("faltar datos requeridos", "error de validacion", MessageBoxButtons.OK);
+
+            }
+
+            
+        }
+
+        private void FrmLogin_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            //
+            if (e.Shift & e.KeyCode == Keys.A)
+            {
+                BtnIngresoDirecto.Visible = true;
+
+            }
+        }
+
+        private void BtnIngresoDirecto_Click(object sender, EventArgs e)
+        {
             Globales.MiFormPrincipal.Show();
+
             this.Hide();
         }
     }
