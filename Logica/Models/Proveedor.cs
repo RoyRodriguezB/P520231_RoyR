@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Logica.Models
         public bool Activo { get; set; }
 
         //propiedades, atributo compuestas
-        TipoProveedor MiTipoProveedor { get; set; }
+        public TipoProveedor MiTipoProveedor { get; set; }
         public Proveedor()
         {
             MiTipoProveedor = new TipoProveedor { };
@@ -66,12 +67,22 @@ namespace Logica.Models
             return R;
         }
 
-        public DataTable Listar(bool VerActivos = true)
+        public DataTable Listar(bool VerActivos = true, string FiltroBusqueda = "")
         {
             DataTable R = new DataTable();
 
+            Services.Conexion MIcnn = new Services.Conexion();
+
+            MIcnn.ListaDeParametros.Add(new SqlParameter("@VerActivos", VerActivos));
+            MIcnn.ListaDeParametros.Add(new SqlParameter("@VerActivosFiltroBusqueda", FiltroBusqueda));
+
+            R = MIcnn.EjecutarSELECT("SPProveedorListar");
+
             return R;
         }
+        //public TipoProveedor MiTipoProveedor;
+
+        
 
     }
 }
