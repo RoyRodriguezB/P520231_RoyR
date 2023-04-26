@@ -218,7 +218,7 @@ namespace P520231_RoyR.Formularios
             // 
             this.CbRolesUsuario.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbRolesUsuario.FormattingEnabled = true;
-            this.CbRolesUsuario.Location = new System.Drawing.Point(538, 104);
+            this.CbRolesUsuario.Location = new System.Drawing.Point(538, 109);
             this.CbRolesUsuario.Name = "CbRolesUsuario";
             this.CbRolesUsuario.Size = new System.Drawing.Size(186, 28);
             this.CbRolesUsuario.TabIndex = 14;

@@ -90,5 +90,15 @@ namespace P520231_RoyR.Formularios
                 Globales.MiFormRegistroCompra.Show();
             }
         }
+
+        private void gestionDeProveedoresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //revisar
+            if (!Globales.MiFormProveedorGestion.Visible)
+            {
+                Globales.MiFormProveedorGestion = new FrmProveedorGestion();
+                Globales.MiFormProveedorGestion.Show();
+            }
+        }
     }
 }

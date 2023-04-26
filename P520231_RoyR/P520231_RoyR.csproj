@@ -70,6 +70,12 @@
     <Compile Include="Formularios\FrmProveedorBuscar.Designer.cs">
       <DependentUpon>FrmProveedorBuscar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\FrmProveedorGestion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\FrmProveedorGestion.Designer.cs">
+      <DependentUpon>FrmProveedorGestion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\FrmRegistroCompra.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\FrmProveedorBuscar.resx">
       <DependentUpon>FrmProveedorBuscar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\FrmProveedorGestion.resx">
+      <DependentUpon>FrmProveedorGestion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\FrmRegistroCompra.resx">
       <DependentUpon>FrmRegistroCompra.cs</DependentUpon>

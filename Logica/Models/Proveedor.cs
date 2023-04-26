@@ -29,6 +29,29 @@ namespace Logica.Models
         {
             bool R = false;
 
+            Services.Conexion MiCnn = new Services.Conexion();
+
+           
+            
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Nombre", this.ProveedorNombre));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Cedula", this.ProveedorCedula));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Email", this.ProveedorEmail));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Notas", this.ProveedorNotas));
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Direccion", this.ProveedorDireccion));
+
+           
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@IdTipo", this.MiTipoProveedor.ProveedorTipo));
+
+            int resultado = MiCnn.EjecutarInsertUpdateDelete("SPProveedorAgregar");
+
+            
+            if (resultado > 0)
+            {
+                R = true;
+            }
+
+
+
             return R;
         }
         public bool Editar()
@@ -48,6 +71,22 @@ namespace Logica.Models
         {
             bool R = false;
 
+       
+            Services.Conexion MiCnn = new Services.Conexion();
+
+         
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Cedula", pCedula));
+
+            DataTable Consulta = new DataTable();
+           
+            Consulta = MiCnn.EjecutarSELECT("SPProveedorConsultarPorCedula");
+
+
+          
+            if (Consulta != null && Consulta.Rows.Count > 0)
+            {
+                R = true;
+            }
 
             return R;
         }
@@ -56,6 +95,22 @@ namespace Logica.Models
         {
             bool R = false;
 
+           
+            Services.Conexion MiCnn = new Services.Conexion();
+
+            
+            MiCnn.ListaDeParametros.Add(new SqlParameter("@Correo", pEmail));
+
+            DataTable Consulta = new DataTable();
+         
+            Consulta = MiCnn.EjecutarSELECT("SPProveedorConsultarPorEmail");
+
+
+           
+            if (Consulta != null && Consulta.Rows.Count > 0)
+            {
+                R = true;
+            }
 
             return R;
         }
@@ -74,7 +129,7 @@ namespace Logica.Models
             Services.Conexion MIcnn = new Services.Conexion();
 
             MIcnn.ListaDeParametros.Add(new SqlParameter("@VerActivos", VerActivos));
-            MIcnn.ListaDeParametros.Add(new SqlParameter("@VerActivosFiltroBusqueda", FiltroBusqueda));
+            MIcnn.ListaDeParametros.Add(new SqlParameter("@FiltroBusqueda", FiltroBusqueda));
 
             R = MIcnn.EjecutarSELECT("SPProveedorListar");
 

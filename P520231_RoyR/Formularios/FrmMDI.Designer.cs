@@ -110,6 +110,7 @@ namespace P520231_RoyR.Formularios
             this.gestionDeProveedoresToolStripMenuItem.Name = "gestionDeProveedoresToolStripMenuItem";
             this.gestionDeProveedoresToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
             this.gestionDeProveedoresToolStripMenuItem.Text = "Gestion de Proveedores";
+            this.gestionDeProveedoresToolStripMenuItem.Click += new System.EventHandler(this.gestionDeProveedoresToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
